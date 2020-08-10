@@ -1,9 +1,9 @@
 package org.alessio29.pbtaBot.internal.builders
 
-import org.alessio29.pbtaBot.internal.commands.CommandExecutionResult
+import org.alessio29.pbtaBot.commands.CommandExecutionResult
 import java.util.*
 
-open abstract class ResponseBuilder {
+abstract class ResponseBuilder {
 
     protected var hasCommandResult = false
     protected val publicPart = StringBuilder()

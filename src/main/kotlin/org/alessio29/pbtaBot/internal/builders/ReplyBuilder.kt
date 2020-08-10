@@ -6,7 +6,8 @@ import java.util.*
 
 
 class ReplyBuilder {
-    private val builder: StringBuilder
+    private val builder: StringBuilder = StringBuilder()
+
     fun leftPad(str: String?, size: Int): ReplyBuilder {
         builder.append(StringUtils.leftPad(str, size))
         return this
@@ -60,17 +61,18 @@ class ReplyBuilder {
         private const val SQUARE_BRACKET_OPEN = "["
         private const val SQUARE_BRACKET_CLOSE = "]"
         private const val TAB = "\t"
+
         fun removeBlocks(rawMessage: String): String {
-            var rawMessage = rawMessage
-            while (rawMessage.contains(BLOCK_MARKER)) {
-                val blockStarts = rawMessage.indexOf(BLOCK_MARKER)
-                val blockStops = rawMessage.indexOf(BLOCK_MARKER, blockStarts + 1)
+            var work = rawMessage
+            while (work.contains(BLOCK_MARKER)) {
+                val blockStarts = work.indexOf(BLOCK_MARKER)
+                val blockStops = work.indexOf(BLOCK_MARKER, blockStarts + 1)
                 if (blockStops == -1) {
-                    return rawMessage
+                    return work
                 }
-                rawMessage = rawMessage.substring(0, blockStarts) + rawMessage.substring(blockStops + 3)
+                work = work.substring(0, blockStarts) + work.substring(blockStops + 3)
             }
-            return rawMessage
+            return work
         }
 
         fun removeQuotes(rawMessage: String): String {
@@ -84,33 +86,19 @@ class ReplyBuilder {
             return java.lang.String.join(NEWLINE, res)
         }
 
-        fun mention(user: User): String {
-            return user.getAsMention()
-        }
+        fun mention(user: User) = user.asMention
 
-        fun bold(message: String): String {
-            return "**$message**"
-        }
+        fun bold(message: String) = "**$message**"
 
-        fun bold(value: Int): String {
-            return bold(Integer.toString(value))
-        }
+        fun bold(value: Int) = bold(value.toString())
 
-        fun italic(message: String): String {
-            return "*$message*"
-        }
+        fun italic(message: String) = "*$message*"
 
-        fun underlined(message: String): String {
-            return "__" + message + "__"
-        }
+        fun underlined(message: String) = "__${message}__"
 
-        fun strikeout(message: String): String {
-            return "~~$message~~"
-        }
+        fun strikeout(message: String) = "~~$message~~"
 
-        fun capitalize(charName: String): String {
-            return charName.substring(0, 1).toUpperCase() + charName.substring(1)
-        }
+        fun capitalize(charName: String) = charName.substring(0, 1).toUpperCase() + charName.substring(1)
 
         fun bold(list: Array<String>): List<String> {
             val res: MutableList<String> = ArrayList()
@@ -128,8 +116,10 @@ class ReplyBuilder {
             return charName.toString().trim { it <= ' ' }
         }
     }
+}
 
-    init {
-        builder = StringBuilder()
-    }
+inline fun buildReply(builder: ReplyBuilder.() -> Unit): String {
+    val replyBuilder = ReplyBuilder()
+    replyBuilder.builder()
+    return replyBuilder.toString()
 }
