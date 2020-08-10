@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.alessio29.pbtaBot.internal.builders.DiscordResponseBuilder
 import org.alessio29.pbtaBot.internal.commands.CommandInterpreter
-import org.alessio29.pbtaBot.internal.messages.DiscordMessageContext
+import org.alessio29.pbtaBot.internal.discord.DiscordMessageContext
 
 class ParsingInputListener : ListenerAdapter() {
 

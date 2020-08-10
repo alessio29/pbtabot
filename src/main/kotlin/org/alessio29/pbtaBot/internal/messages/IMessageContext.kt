@@ -9,5 +9,5 @@ interface IMessageContext {
 
     val originalEvent: Any
 
-    fun <T> getPlatformCapability(capability: Class<T>): T?
+    fun <T : Any> getPlatformCapability(capability: Class<T>): T?
 }
