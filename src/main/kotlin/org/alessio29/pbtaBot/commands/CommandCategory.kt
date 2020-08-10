@@ -1,4 +1,4 @@
-package org.alessio29.pbtaBot.internal.commands
+package org.alessio29.pbtaBot.commands
 
 enum class CommandCategory {
     CARDS, CHARACTERS, DICE, BENNIES, INITIATIVE, INFO, ADMIN, TOKENS, STATES, MUSIC, OTHER;
@@ -6,7 +6,7 @@ enum class CommandCategory {
     companion object {
         fun valueOfOrNull(string: String): CommandCategory? {
             return try {
-                org.alessio29.pbtaBot.internal.commands.CommandCategory.valueOf(string)
+                valueOf(string)
             } catch (e: IllegalArgumentException) {
                 null
             }

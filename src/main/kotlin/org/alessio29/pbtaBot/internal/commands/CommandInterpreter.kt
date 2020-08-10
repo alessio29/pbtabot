@@ -1,22 +1,21 @@
 package org.alessio29.pbtaBot.internal.commands
 
 
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import org.alessio29.pbtaBot.commands.CommandExecutionResult
 import org.alessio29.pbtaBot.internal.builders.ReplyBuilder
 import org.alessio29.pbtaBot.internal.builders.ResponseBuilder
-import org.alessio29.pbtaBot.internal.commands.interfaces.ICommand
-import org.alessio29.pbtaBot.internal.messages.IMessageReceived
+import org.alessio29.pbtaBot.commands.ICommand
+import org.alessio29.pbtaBot.internal.messages.IMessageContext
 import org.apache.commons.text.StringEscapeUtils
 import java.util.*
 
 class CommandInterpreter {
-    private val registry: CommandRegistry = CommandRegistry.getInstance()
 
     private val defaultPrefix = "~"
 
-    fun run(message: IMessageReceived<MessageReceivedEvent>, responseBuilder: ResponseBuilder) {
+    fun run(message: IMessageContext, responseBuilder: ResponseBuilder) {
         val prefix: String =  defaultPrefix// TODO Prefixes.getPrefix(message.getAuthorId())
-        val rawMessage: String = message.getRawMessage()
+        val rawMessage: String = message.rawMessage
         val strippedMessage: String = ReplyBuilder.removeBlocks(ReplyBuilder.removeQuotes(rawMessage))
         val words = strippedMessage.split("\\s+").toTypedArray()
         for (i in words.indices) {
@@ -28,33 +27,28 @@ class CommandInterpreter {
             var isCommand = false
             if (word.trim { it <= ' ' }.startsWith(prefix)) {
                 val command = word.replaceFirst(prefix.toRegex(), "")
-                val cmd: ICommand<*>? = registry.getCommandByName(command)
+                val cmd: ICommand? = CommandRegistry.getCommandByName(command)
                 if (cmd != null) {
                     isCommand = true
-                    val args =
-                        Arrays.copyOfRange(words, index + 1, words.size)
+                    val args = words.copyOfRange(index + 1, words.size)
                     try {
-                        val res: CommandExecutionResult = cmd.execute(message, args)
+                        val res: CommandExecutionResult = cmd.execute(message, args.asList())
                         responseBuilder.addResult(res)
                         index += res.toSkip
                     } catch (e: Exception) {
                         val errorId = UUID.randomUUID()
-                        println(
-                            "Exception Id: $errorId\nException while executing command: "
-                        )
+                        println("Exception Id: $errorId\nException while executing command: ")
                         responseBuilder.reportError(errorId, word, e)
                         index++
                     }
                 } else {
-                    for (pcmd in registry.getRegisteredParsingCommands()) {
+                    for (pcmd in CommandRegistry.getRegisteredParsingCommands()) {
                         try {
                             val res: CommandExecutionResult = pcmd.parseAndExecuteOrNull(message, command)
-                            if (res != null) {
-                                isCommand = true
-                                index++
-                                responseBuilder.addResult(res)
-                                break
-                            }
+                            isCommand = true
+                            index++
+                            responseBuilder.addResult(res)
+                            break
                         } catch (e: Exception) {
                             val errorId = UUID.randomUUID()
                             println("Exception while executing command: ")

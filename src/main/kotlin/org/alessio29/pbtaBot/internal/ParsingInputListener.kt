@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.alessio29.pbtaBot.internal.builders.DiscordResponseBuilder
 import org.alessio29.pbtaBot.internal.commands.CommandInterpreter
-import org.alessio29.pbtaBot.internal.messages.DiscordMessageReceived
+import org.alessio29.pbtaBot.internal.messages.DiscordMessageContext
 
 class ParsingInputListener : ListenerAdapter() {
 
@@ -19,7 +19,7 @@ class ParsingInputListener : ListenerAdapter() {
         }
 
         val responseBuilder = DiscordResponseBuilder(author, channel)
-        CommandInterpreter().run(DiscordMessageReceived(event), responseBuilder)
+        CommandInterpreter().run(DiscordMessageContext(event), responseBuilder)
         responseBuilder.sendResponse()
     }
 }

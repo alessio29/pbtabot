@@ -11,10 +11,10 @@ object MessageSplitter {
         val result: MutableList<String> = ArrayList()
         val partBuilder = StringBuilder()
         for (line in message.split(ReplyBuilder.NEWLINE).toTypedArray()) {
-            var trimmedLine = line.trim { it <= ' ' }
+            val trimmedLine = line.trim { it <= ' ' }
             when {
                 trimmedLine.length > partLengthLimit -> {
-                    if (partBuilder.length > 0) {
+                    if (partBuilder.isNotEmpty()) {
                         result.add(partBuilder.toString().trim { it <= ' ' })
                         partBuilder.setLength(0)
                     }
@@ -35,16 +35,16 @@ object MessageSplitter {
     }
 
     private fun splitLine(line: String, partLengthLimit: Int): Collection<String> {
-        var line = line
         if (line.length < partLengthLimit) {
             return listOf(line)
         }
         val result: MutableList<String> = ArrayList()
-        while (line.length > partLengthLimit) {
-            result.add(line.substring(0, partLengthLimit).trim { it <= ' ' })
-            line = line.substring(partLengthLimit)
+        var lineRemainder = line
+        while (lineRemainder.length > partLengthLimit) {
+            result.add(lineRemainder.substring(0, partLengthLimit).trim { it <= ' ' })
+            lineRemainder = lineRemainder.substring(partLengthLimit)
         }
-        result.add(line)
+        result.add(lineRemainder)
         return result
     }
 }

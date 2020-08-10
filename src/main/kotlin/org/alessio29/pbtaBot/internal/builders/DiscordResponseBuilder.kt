@@ -3,17 +3,17 @@ package org.alessio29.pbtaBot.internal.builders
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.entities.User
 
-class DiscordResponseBuilder(user: User, channel: MessageChannel) :  SplittingResponseBuilder(MESSAGE_LENGTH_LIMIT) {
-
-    private val user: User = user
-    private val channel: MessageChannel = channel
+class DiscordResponseBuilder(
+    private val user: User,
+    private val channel: MessageChannel
+) : SplittingResponseBuilder(MESSAGE_LENGTH_LIMIT) {
 
     override fun sendReplyToOrigin(message: String) {
         channel.sendMessage(message).queue()
     }
 
     override fun sendPrivateReply(message: String) {
-        user.openPrivateChannel().queue({ channel -> channel.sendMessage(message).queue() })
+        user.openPrivateChannel().queue { channel -> channel.sendMessage(message).queue() }
     }
 
     override val userMention: String
