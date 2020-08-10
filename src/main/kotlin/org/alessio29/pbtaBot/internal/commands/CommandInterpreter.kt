@@ -10,7 +10,7 @@ import org.apache.commons.text.StringEscapeUtils
 import java.util.*
 
 class CommandInterpreter {
-    private val registry: CommandRegistry = CommandRegistry.getInstance()
+    private val registry = CommandRegistry
 
     private val defaultPrefix = "~"
 

@@ -10,7 +10,7 @@ class MethodCommand(
     override val description: String,
     override val aliases: Array<String>,
     override val arguments: Array<String>,
-    private var methodOwner : Object?,
+    private var methodOwner : Any?,
     private var method: Method
 
 ) : ICommand<Any> {

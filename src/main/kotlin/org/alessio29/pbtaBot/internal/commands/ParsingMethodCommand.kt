@@ -5,7 +5,7 @@ import org.alessio29.pbtaBot.internal.messages.IMessageReceived
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
-class ParsingMethodCommand(private val methodOwner: Object?, private val method: Method) :
+class ParsingMethodCommand(private val methodOwner: Any?, private val method: Method) :
     IParsingCommand {
 
     override fun parseAndExecuteOrNull(message: IMessageReceived<*>, command: String): CommandExecutionResult {
