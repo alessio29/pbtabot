@@ -14,6 +14,7 @@ object PingCommand :
         CommandExecutionResult(
             buildReply {
                 attach("Hey, ${message.authorMention}, PbtaBot is ready!").newLine()
-            }
+            },
+            1
         )
 }
