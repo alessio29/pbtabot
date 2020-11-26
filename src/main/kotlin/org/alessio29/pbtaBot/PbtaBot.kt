@@ -15,8 +15,8 @@ const val REDIS_PASSW = 4
 
 fun main(args: Array<String>) {
 
-    val cmd1: PingCommand = PingCommand
-    val cmd2: InfoCommand = InfoCommand
+    val cmd1  = PingCommand
+    val cmd2 = InfoCommand
 
     val token = args[TOKEN]
     connect(token)
