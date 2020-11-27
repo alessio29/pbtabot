@@ -1,16 +1,26 @@
 package org.alessio29.pbtaBot
 
 import net.dv8tion.jda.api.JDABuilder
+import org.alessio29.pbtaBot.commands.impl.InfoCommand
 import org.alessio29.pbtaBot.commands.impl.PingCommand
 import org.alessio29.pbtaBot.internal.ParsingInputListener
 import org.alessio29.pbtaBot.internal.commands.CommandRegistry
 import javax.security.auth.login.LoginException
 import kotlin.system.exitProcess
 
-fun main(args: Array<String>) {
-    CommandRegistry.registerCommand(PingCommand)
+const val TOKEN = 0
+const val PASSWORD = 1
+const val REDIS_HOST = 2
+const val REDIS_PORT = 3
+const val REDIS_PASSW = 4
 
-    connect(args[0])
+fun main(args: Array<String>) {
+
+    CommandRegistry.registerCommand(PingCommand)
+    CommandRegistry.registerCommand(InfoCommand)
+
+    val token = args[TOKEN]
+    connect(token)
     println("Connected!")
 }
 
