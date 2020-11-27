@@ -4,4 +4,4 @@ data class Playbook(
     override val name: String,
     val description: String,
     var moves: List<Move> = listOf()
-): NamedEntity()
+) : NamedEntity()

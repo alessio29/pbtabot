@@ -1,6 +1,5 @@
 package org.alessio29.pbtaBot.commands
 
-@Suppress("LeakingThis")
 abstract class SimpleCommand(
 
     override val name: String,

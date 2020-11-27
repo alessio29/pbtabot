@@ -2,9 +2,9 @@ package org.alessio29.pbtaBot.internal.commands
 
 
 import org.alessio29.pbtaBot.commands.CommandExecutionResult
+import org.alessio29.pbtaBot.commands.ICommand
 import org.alessio29.pbtaBot.internal.builders.ReplyBuilder
 import org.alessio29.pbtaBot.internal.builders.ResponseBuilder
-import org.alessio29.pbtaBot.commands.ICommand
 import org.alessio29.pbtaBot.internal.messages.IMessageContext
 import org.apache.commons.text.StringEscapeUtils
 import java.util.*
@@ -14,7 +14,7 @@ class CommandInterpreter {
     private val defaultPrefix = "~"
 
     fun run(message: IMessageContext, responseBuilder: ResponseBuilder) {
-        val prefix: String =  defaultPrefix// TODO Prefixes.getPrefix(message.getAuthorId())
+        val prefix: String = defaultPrefix// TODO Prefixes.getPrefix(message.getAuthorId())
         val rawMessage: String = message.rawMessage
         val strippedMessage: String = ReplyBuilder.removeBlocks(ReplyBuilder.removeQuotes(rawMessage))
         val words = strippedMessage.split("\\s+").toTypedArray()

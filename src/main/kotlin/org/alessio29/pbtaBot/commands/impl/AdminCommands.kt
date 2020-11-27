@@ -22,15 +22,12 @@ object PingCommand :
 object InfoCommand :
     SimpleCommand("info", CommandCategory.ADMIN, "Returns bot stats") {
 
-    override fun execute(message: IMessageContext, args: List<String>) : CommandExecutionResult {
+    override fun execute(message: IMessageContext, args: List<String>): CommandExecutionResult {
 
-        var capability = message.getPlatformCapability(IGetNumberOfServersCapability::class.java);
-        var msg: String
-        if (capability != null) {
-            msg = capability.getNumberOfServers().toString()
-        } else {
-            msg = "Sorry, unable to get info!"
-        }
+        val msg = message.getPlatformCapability(IGetNumberOfServersCapability::class.java)
+            ?.run { getNumberOfServers().toString() }
+            ?: "Sorry, unable to get info!"
+
         return CommandExecutionResult(
             buildReply {
                 attach(

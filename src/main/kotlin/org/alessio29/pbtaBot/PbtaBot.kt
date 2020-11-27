@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDABuilder
 import org.alessio29.pbtaBot.commands.impl.InfoCommand
 import org.alessio29.pbtaBot.commands.impl.PingCommand
 import org.alessio29.pbtaBot.internal.ParsingInputListener
+import org.alessio29.pbtaBot.internal.commands.CommandRegistry
 import javax.security.auth.login.LoginException
 import kotlin.system.exitProcess
 
@@ -15,8 +16,8 @@ const val REDIS_PASSW = 4
 
 fun main(args: Array<String>) {
 
-    val cmd1  = PingCommand
-    val cmd2 = InfoCommand
+    CommandRegistry.registerCommand(PingCommand)
+    CommandRegistry.registerCommand(InfoCommand)
 
     val token = args[TOKEN]
     connect(token)

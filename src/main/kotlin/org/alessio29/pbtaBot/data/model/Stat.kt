@@ -4,4 +4,4 @@ data class Stat(
     override val name: String,
     val shortcut: String,
     val value: Byte
-): NamedEntity()
+) : NamedEntity()

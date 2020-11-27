@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 
 
-class JsonConverter private constructor() {
-    fun <T> fromJson(json: String?, clazz: Class<T>?): T? {
+object JsonConverter {
+    private val mapper: ObjectMapper = ObjectMapper().apply { findAndRegisterModules() }
+
+    fun <T> fromJson(json: String, clazz: Class<T>): T? {
         return try {
             mapper.readValue(json, clazz)
         } catch (e: JsonProcessingException) {
@@ -14,7 +16,7 @@ class JsonConverter private constructor() {
         }
     }
 
-    fun toJson(o: Any?): String? {
+    fun toJson(o: Any): String? {
         return try {
             mapper.writeValueAsString(o)
         } catch (e: JsonProcessingException) {
@@ -22,9 +24,7 @@ class JsonConverter private constructor() {
             null
         }
     }
-
-    companion object {
-        val instance = JsonConverter()
-        private val mapper: ObjectMapper = ObjectMapper()
-    }
 }
+
+fun Any.toJson() = JsonConverter.toJson(this)
+fun <T> String.fromJson(clazz: Class<T>) = JsonConverter.fromJson(this, clazz)

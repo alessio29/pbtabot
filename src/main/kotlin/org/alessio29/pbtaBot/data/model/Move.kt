@@ -8,4 +8,4 @@ data class Move(
     val weakHitDescription: String?,
     val missDescription: String?,
     var stat: Stat? = null
-): NamedEntity()
+) : NamedEntity()

@@ -6,4 +6,4 @@ data class Hack(
     var stats: List<Stat> = listOf(),
     var basicMoves: List<Move> = listOf(),
     var playbooks: List<Playbook> = listOf()
-): NamedEntity()
+) : NamedEntity()
