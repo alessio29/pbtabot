@@ -39,9 +39,13 @@ class RedisService(private val redis: RedisClient) {
         subStorage[value.name] = value
     }
 
-
-    fun get(tag: String, name: String) =
+    fun find(tag: String, name: String) =
         storage[tag]?.get(name)
+
+    fun remove(tag: String, name: String) {
+        storage[tag]?.remove(name)
+        saveAll()
+    }
 
     fun saveAll() {
         for (tagEntry in storage) {
