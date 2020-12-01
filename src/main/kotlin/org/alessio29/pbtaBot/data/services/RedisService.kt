@@ -2,8 +2,8 @@ package org.alessio29.pbtaBot.data.services
 
 import org.alessio29.pbtaBot.data.model.*
 import org.alessio29.pbtaBot.internal.redis.RedisClient
-import org.alessio29.pbtaBot.internal.utils.fromJson
-import org.alessio29.pbtaBot.internal.utils.toJson
+import org.alessio29.pbtaBot.internal.utils.fromJsonOrNull
+import org.alessio29.pbtaBot.internal.utils.toJsonOrNull
 
 class RedisService(private val redis: RedisClient) {
 
@@ -52,7 +52,7 @@ class RedisService(private val redis: RedisClient) {
             val tagKey = tagEntry.key
             val converted: MutableMap<String, String> = mutableMapOf()
             for (entry in tagEntry.value) {
-                converted[entry.key] = entry.value.toJson() ?: continue
+                converted[entry.key] = entry.value.toJsonOrNull() ?: continue
             }
             redis.saveMapAtKey(tagKey, converted)
         }
@@ -64,7 +64,7 @@ class RedisService(private val redis: RedisClient) {
             val tagStorage = storage.getOrPut(tag) { mutableMapOf() }
             val map = redis.loadMapAtKey(tag)
             for (value in map.values) {
-                val parsed = value.fromJson(clazz) ?: continue
+                val parsed = value.fromJsonOrNull(clazz) ?: continue
                 tagStorage[parsed.name] = parsed
             }
         }
