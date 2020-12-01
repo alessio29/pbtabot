@@ -37,7 +37,7 @@ object Redis {
     }
 }
 
-class RedisClient() {
+class RedisClient {
 
     private val log: Logger = Logger.getLogger(RedisClient::class.java)
 
@@ -45,25 +45,34 @@ class RedisClient() {
 
     fun saveMapAtKey(key: String, map: Map<String, String>) {
         try {
-            client.use { client -> client.hmset(key, map)}
+            client.use { client ->
+                client.hmset(key, map)
+            }
         } catch (e: Exception) {
             log.debug("Error while saving map to Redis storage.", e)
+//            throw e
         }
     }
 
     fun remove(key: String?, fieldKey: String?) {
         try {
-            client.use { client -> client.hdel(key, fieldKey) }
+            client.use { client ->
+                client.hdel(key, fieldKey)
+            }
         } catch (e: Exception) {
             log.debug("Error while deleting value from Redis storage.", e)
+//            throw e
         }
     }
 
     fun loadMapAtKey(key: String?): MutableMap<String, String> =
         try {
-            client.use { client -> client.hgetAll(key) }
+            client.use { client ->
+                client.hgetAll(key)
+            }
         } catch (e: Exception) {
             log.debug("Error while loading value from Redis storage.", e)
+//            throw e
             mutableMapOf()
         }
 }
